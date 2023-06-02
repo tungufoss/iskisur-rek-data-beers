@@ -1,0 +1,163 @@
+"id","name","death","mom","dad","gender","birth","chosen_one"
+0,"af ætt Ísfólksins",NA,NA,NA,NA,NA,NA
+1,"Sunniva eldri af ætt Ísfólksins",1581,0,0,"F",NA,NA
+2,"Þengill af ætt Ísfólksins",1621,0,0,"M",1548,"good"
+3,"Silja Arngrímsdóttir",1621,NA,NA,"F",1564,NA
+4,"Charlotte Meiden",1620,NA,NA,"F",1556,NA
+5,"Sunna Angelíka af ætt Ísfólksins",1602,1,NA,"F",1579,"good"
+6,"Dagur Christan Meiden",1637,4,NA,"M",1581,NA
+7,"Líf Hanna af ætt Ísfólksins",1668,3,2,"F",1583,NA
+8,"Ari af ætt Ísfólksins",1660,3,2,"M",1586,NA
+9,"Meta",1635,NA,NA,"F",1587,NA
+10,"Sunniva af ætt Ísfólksins",1621,5,NA,"F",1601,NA
+11,"Tarald Meiden",1660,7,6,"M",1601,NA
+12,"Yrja Matthíasdóttir",1669,NA,NA,"F",1601,NA
+13,"Cecilie Meiden",1683,7,6,"F",1602,NA
+14,"Alexander Paladín",1671,NA,NA,"M",1595,NA
+15,"Cornelia Erbach",1635,NA,NA,"F",1616,NA
+16,"Þorgeir Lind af ætt Ísfólksins",1635,9,8,"M",1607,NA
+17,"Þrándur af ætt Ísfólksins",1625,9,8,"M",1608,"good"
+18,"Brandur af ætt Ísfólksins",1686,9,8,"M",1609,NA
+19,"Matthildur Nikulásdóttir",1672,NA,NA,"F",1610,NA
+20,"Kolgrímur Meiden",1635,10,11,"M",1621,"evil"
+21,"Matthías Meiden",1695,12,11,"M",1624,NA
+22,"Hildur Jóelsdóttir",1693,NA,NA,"F",1627,NA
+23,"Jessika Cross",1681,NA,NA,"F",1629,NA
+24,"Þráinn Paladín",1678,13,14,"M",1628,NA
+25,"Gabríella Paladín",1712,13,14,"F",1628,NA
+26,"Kaleb",1695,NA,NA,"M",1618,NA
+27,"Mikael Lind af ætt Ísfólksins",1708,15,16,"M",1635,NA
+28,"Anette de Saint Colombo",1684,NA,NA,"F",1634,NA
+29,"Andrés Lind af ætt Ísfólksins",1711,19,18,"M",1627,NA
+30,"Elí",1690,NA,NA,"F",1638,NA
+31,"Irmelín Meiden",1712,22,21,"F",1655,NA
+32,"Örjen Stege",1712,NA,NA,"M",1649,NA
+33,"Lene Paladín",1724,23,24,"F",1652,NA
+34,"Tristan Paladín",1741,23,24,"M",1658,NA
+35,"Villimey Kalebsdóttir",1730,25,26,"F",1656,"good"
+36,"Dominic Lind af ætt Ísfólksins",1730,28,27,"M",1652,"good"
+37,"Nikulás Lind af ætt Ísfólksins",1713,30,29,"M",1655,"good"
+38,"Sören Grip",1710,NA,NA,"M",1633,NA
+39,"Christiana Stege",1756,33,32,"F",1677,NA
+40,"Elísa Larsdóttir",1747,NA,NA,"F",1674,NA
+41,"Úlfhéðinn Paladín af ætt Ísfólksins",1771,NA,34,"M",1674,"converted"
+42,"Þengill III Lind af ætt Ísfólksins",1760,35,36,"M",1677,NA
+43,"Sigrid",1755,NA,NA,"F",1679,NA
+44,"Úlfur Lind af ætt Ísfólksins",1742,31,37,"M",1677,NA
+45,"Berit",1724,NA,NA,"F",1678,NA
+46,"Anna Gréta",1776,NA,NA,"F",1694,NA
+47,"Vendill Grip af ætt Ísfólksins",1775,39,38,"M",1694,NA
+48,"Jón Paladín af ætt Ísfólksins",1768,40,41,"M",1696,NA
+49,"Brynja",1763,NA,NA,"F",1697,NA
+50,"Madeleine",1770,NA,NA,"F",1699,NA
+51,"Dan Lind af ætt Ísfólksins",1769,43,42,"M",1697,NA
+52,"Ingiríður Lind af ætt Ísfólksins",1789,44,45,"F",1698,"good"
+53,"Örjen Grip af ætt Ísfólksins",1780,46,47,"M",1723,NA
+54,"Shira",1790,NA,47,"F",1716,"good"
+55,"Mar",1790,NA,NA,"M",1712,"converted"
+56,"Þóra",1790,NA,NA,"F",1720,NA
+57,"Úlfur Paladín af ætt Ísfólksins",1788,49,48,"M",1724,NA
+58,"Daníel Ingiríðarson Lind af ætt Ísfólksins",1773,52,51,"M",1717,NA
+59,"Vibekka",1770,NA,NA,"F",NA,NA
+60,"Arfur Grip af ætt Ísfólksins",1832,NA,53,"M",1748,NA
+61,"Vermundur Tark",1791,NA,NA,"M",1745,NA
+62,"Elísabet Paladín af ætt Ísfólksins",1791,56,57,"F",1750,NA
+63,"Sölvi Lind af ætt Ísfólksins",1779,NA,58,"M",1749,"evil"
+64,"Ingela Lind af ætt Ísfólksins",1830,NA,58,"F",1752,NA
+65,"Ólafur",1791,NA,NA,"M",1750,NA
+66,"Kajsa frá Vargaþorpi",1818,NA,NA,"F",1779,NA
+67,"Christer Grip (Hafgr.) af ætt Ísfólksins",1853,59,60,"M",1774,NA
+68,"Gunnhildur Grip af ætt Ísfólksins",1847,59,60,"F",1775,NA
+69,"Erlendur á Bakka",1845,NA,NA,"M",1773,NA
+70,"Vinga Tark",1848,62,61,"F",1777,NA
+71,"Heikir Lind af ætt Ísfólksins",1848,NA,63,"M",1774,"good"
+72,"Sara",1815,NA,NA,"F",1769,NA
+73,"Óli Ólafsson af ætt Ísfólksins",1813,64,65,"M",1773,NA
+74,"Dóratea Hafgríms af ætt Ísfólksins",1860,66,67,"F",1800,NA
+75,"Tómas",1848,NA,NA,"M",1795,NA
+76,"Þula frá Bakka af ætt Ísfólksins",1848,68,69,"F",1800,NA
+77,"Sólveig",1855,NA,NA,"F",1788,NA
+78,"Eskill Lind af ætt Ísfólksins",1858,70,71,"M",1797,NA
+79,"Kolur Símonar",1859,NA,NA,"M",1799,NA
+80,"Anna María Óladóttir",1860,72,73,"F",1796,NA
+81,"Emma af ætt Ísfólksins",1880,74,NA,"F",1825,NA
+82,"Petra Eiríksdóttir Nordlade af ætt Ísfólksins",1870,74,NA,"F",1829,NA
+83,"Christer Tómasson af ætt Ísfólksins",1893,NA,NA,"M",1818,NA
+84,"Magdalena Backman",1895,84,NA,"F",1820,NA
+85,"Viljar Lind af ætt Ísfólksins",1899,77,78,"M",1820,NA
+86,"Belinda",1900,NA,NA,"F",1830,NA
+87,"Lúcífer",NA,NA,NA,"M",NA,NA
+88,"Saga Símonardóttir af ætt Ísfólksins",1861,80,79,"F",1836,NA
+89,"Knútur Skogsrud af ætt Ísfólksins",1889,81,NA,"M",1850,NA
+90,"Gerður Sveinsdóttir af ætt Ísfólksins",1888,82,NA,"F",1855,NA
+91,"Malin Christersdóttir af ætt Ísfólksins",1916,84,83,"F",1842,NA
+92,"Per Volden",1913,NA,NA,"M",1841,NA
+93,"Annelí",1872,NA,NA,"F",1853,NA
+94,"Henning Lind af ætt Ísfólksins",1942,86,85,"M",1850,NA
+95,"Agneta",1915,NA,NA,"F",1848,NA
+96,"Úlfar af ætt Ísfólksins",1883,88,87,"M",1861,"evil"
+97,"Marco af ætt Ísfólksins",NA,88,87,"M",1861,NA
+98,"Erling Skogsrud af ætt Ísfólksins",NA,NA,89,"M",1884,"evil"
+99,"Petra Ólafsdóttir af ætt Ísfólksins",1899,90,NA,"F",1880,NA
+100,"Marit Svelten",1945,NA,NA,"F",1872,NA
+101,"Christoffer Volden af ætt Ísfólksins",1946,91,92,"M",1874,NA
+102,"Benedikta Lind af ætt Ísfólksins",NA,93,94,"F",1872,NA
+103,"Sander Brink",1937,NA,NA,"M",1868,NA
+104,"Vanja Lind af ætt Ísfólksins",1910,95,96,"F",1884,NA
+105,"Tamlin djöfull næturinnar",NA,NA,NA,"M",NA,NA
+106,"Linde-Lou af ætt Ísfólksins",1897,NA,96,NA,1879,NA
+107,"Knútur Skogsrud af ætt Ísfólksins",NA,NA,98,"M",1909,NA
+108,"Mali af ætt Ísfólksins",NA,99,NA,"F",1894,NA
+109,"barn sem deyr í fæðingu - bannfært",1989,99,NA,NA,1989,NA
+110,"Vetle Volden af ætt Ísfólksins",NA,100,101,"M",1902,NA
+111,"Hanna",NA,NA,NA,"F",1902,NA
+112,"André Brink af ætt Ísfólksins",NA,102,103,"M",1892,NA
+113,"Christa Lind af ætt Ísfólksins",NA,104,105,"F",1910,NA
+114,"Abel Gard",NA,NA,NA,"M",1893,NA
+115,"Imri",NA,NA,97,NA,NA,NA
+116,"Ellen Skogsrud af ætt Ísfólksins",NA,NA,107,"F",1938,NA
+117,"Óli Jörgen",NA,NA,NA,"M",1918,NA
+118,"María Volden af ætt Ísfólksins",NA,111,110,"F",1922,NA
+119,"Jónatan af ætt Ísfólksins",NA,111,110,"M",1924,NA
+120,"Elísabet",NA,NA,NA,"F",1929,NA
+121,"Jóakim Gard",NA,NA,NA,"M",1920,NA
+122,"Karina af ætt Ísfólksins",NA,111,110,"F",1926,NA
+123,"Ríkharður Brink af ætt Ísfólksins",NA,108,112,"M",1913,NA
+124,"Vinnie Dahlen",NA,NA,NA,"F",1909,NA
+125,"Nataníel Gard af ætt Ísfólksins",NA,113,114,"M",1933,NA
+126,"Christel",NA,118,117,"F",1942,NA
+127,"Marianna",NA,118,117,"F",1943,NA
+128,"Jörgen",NA,118,117,"M",1944,NA
+129,"Mads",NA,118,117,"M",1945,NA
+130,"Oddur",NA,118,117,"M",1946,NA
+131,"Finnur",NA,120,119,"M",1946,NA
+132,"Óli",NA,120,119,"M",1947,NA
+133,"Gróo",NA,120,119,NA,1948,NA
+134,"Gabriel Gard af ætt Ísfólksins",NA,122,121,"M",1948,NA
+135,"Þúfa Brink",NA,124,123,"F",1937,"converted"
+136,"Gandur",NA,NA,115,"M",NA,NA
+200,"Inu",NA,NA,NA,NA,NA,"good"
+201,"Hann-sem-fæddist-í-dyrunum",NA,NA,NA,"M",NA,"good"
+202,"Stjarna",NA,NA,NA,NA,NA,"good"
+203,"Gawar",NA,NA,NA,NA,NA,"good"
+204,"Hiir",NA,NA,NA,NA,NA,"good"
+205,"Auga illskurnar",NA,NA,NA,NA,NA,"evil"
+206,"Dída",NA,NA,NA,"F",NA,"good"
+207,"Hanna",NA,NA,NA,"F",NA,"evil"
+208,"Grímur",NA,NA,NA,"M",NA,"evil"
+209,"Gúrú",NA,NA,NA,NA,NA,"evil"
+210,"Halkatla",NA,NA,NA,"F",NA,"converted"
+211,"Estríður",NA,NA,NA,"F",NA,"good"
+212,"Ghil grimmi, sonur Þengils",NA,NA,NA,"M",NA,"evil"
+213,"Ingigerður",NA,NA,NA,"F",NA,"evil"
+214,"Jahas",NA,NA,NA,NA,NA,"good"
+215,"Kat-Ghil, sonur sonarsonar Þengils hins illa",NA,NA,NA,"M",NA,"evil"
+216,"Kat, sonarsonur Þengils hins illa",NA,NA,NA,"M",NA,"evil"
+218,"Olaves Krestiernsson",NA,NA,NA,"M",NA,"evil"
+219,"Páll ""vinnumaðurinn"" sem gabbaði Eskil",NA,NA,NA,"M",NA,"evil"
+220,"Sigleikur",NA,NA,NA,"M",NA,"good"
+221,"Skelfingin",NA,NA,NA,NA,NA,"evil"
+224,"Targenor",NA,NA,NA,"M",NA,"good"
+225,"Tobba",NA,NA,NA,"F",NA,"evil"
+227,"Vega",NA,NA,NA,"F",NA,"evil"
+228,"Vetrarsorg, sonur Þengils hins illa",NA,NA,NA,"M",NA,"evil"
