@@ -1,7 +1,6 @@
 "id","name","death","mom","dad","gender","birth","chosen_one"
-0,"af ætt Ísfólksins",NA,NA,NA,NA,NA,NA
-1,"Sunniva eldri af ætt Ísfólksins",1581,0,0,"F",NA,NA
-2,"Þengill af ætt Ísfólksins",1621,0,0,"M",1548,"good"
+1,"Sunniva eldri af ætt Ísfólksins",1581,NA,NA,"F",NA,NA
+2,"Þengill af ætt Ísfólksins",1621,NA,NA,"M",1548,"good"
 3,"Silja Arngrímsdóttir",1621,NA,NA,"F",1564,NA
 4,"Charlotte Meiden",1620,NA,NA,"F",1556,NA
 5,"Sunna Angelíka af ætt Ísfólksins",1602,1,NA,"F",1579,"good"
@@ -37,7 +36,7 @@
 35,"Villimey Kalebsdóttir",1730,25,26,"F",1656,"good"
 36,"Dominic Lind af ætt Ísfólksins",1730,28,27,"M",1652,"good"
 37,"Nikulás Lind af ætt Ísfólksins",1713,30,29,"M",1655,"good"
-38,"Sören Grip",1710,NA,NA,"M",1633,NA
+38,"Sören Grip",1710,NA,NA,"M",1663,NA
 39,"Christiana Stege",1756,33,32,"F",1677,NA
 40,"Elísa Larsdóttir",1747,NA,NA,"F",1674,NA
 41,"Úlfhéðinn Paladín af ætt Ísfólksins",1771,NA,34,"M",1674,"converted"
@@ -51,7 +50,7 @@
 49,"Brynja",1763,NA,NA,"F",1697,NA
 50,"Madeleine",1770,NA,NA,"F",1699,NA
 51,"Dan Lind af ætt Ísfólksins",1769,43,42,"M",1697,NA
-52,"Ingiríður Lind af ætt Ísfólksins",1789,44,45,"F",1698,"good"
+52,"Ingiríður Lind af ætt Ísfólksins",1789,45,44,"F",1698,"good"
 53,"Örjen Grip af ætt Ísfólksins",1780,46,47,"M",1723,NA
 54,"Shira",1790,NA,47,"F",1716,"good"
 55,"Mar",1790,NA,NA,"M",1712,"converted"
@@ -83,7 +82,7 @@
 81,"Emma af ætt Ísfólksins",1880,74,NA,"F",1825,NA
 82,"Petra Eiríksdóttir Nordlade af ætt Ísfólksins",1870,74,NA,"F",1829,NA
 83,"Christer Tómasson af ætt Ísfólksins",1893,NA,NA,"M",1818,NA
-84,"Magdalena Backman",1895,84,NA,"F",1820,NA
+84,"Magdalena Backman",1895,76,75,"F",1820,NA
 85,"Viljar Lind af ætt Ísfólksins",1899,77,78,"M",1820,NA
 86,"Belinda",1900,NA,NA,"F",1830,NA
 87,"Lúcífer",NA,NA,NA,"M",NA,NA
