@@ -23,8 +23,8 @@ create_plots2 <- function(df,
     p11 <- df %>%
       filter(!is.na(release) & !is.na(var11)) %>%
       ggplot(aes(x = release, y = var11)) +
-      geom_hline(aes(yintercept = median(var11)), color = "red", linetype = "dashed") +
-      geom_hline(aes(yintercept = mean(var11)), color = "red", linetype = "dotted") +
+      geom_hline(aes(yintercept = median(var11)), color = "gray", linetype = "dashed") +
+      geom_hline(aes(yintercept = mean(var11)), color = "gray", linetype = "dotted") +
       geom_point(aes(alpha = alpha, color = color, shape = shape), size = 3) +
       geom_line(aes(group = group)) +
       labs(title = title11, x = NULL, y = label11)
