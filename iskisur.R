@@ -369,6 +369,7 @@ df <- family %>%
     shape = factor(gender, levels = c('F', 'M', 'U'), labels = c('Female', 'Male', 'Unknown')),
   )
 df %>% group_by(gender) %>% tally()
+df %>% group_by(chosen_one) %>% tally()
 
 p <- create_plots(
   df, title11 = 'Lifespan', label11 = 'Age', title12 = 'Age', title21 = 'Births',
@@ -386,9 +387,6 @@ p <- create_plots(
   output_filename = 'family_birth'
 )
 p$plot
-
-library(dplyr)
-library(stringr)
 
 families <- c('af att Isfolksins', 'Meiden', 'Paladin', 'Stege', 'Tark', 'Grip', 'Gard', 'Brink', 'Skogsrud', 'Volden',
               'Lind')
@@ -415,15 +413,45 @@ gantt <- read.csv('gantt_order.csv') %>%
   mutate(machine = as.factor(machine))
 
 # Create the Gantt chart
-ggplot(gantt, aes(y = machine, yend = machine, x = starting_time, xend = end_time)) +
-  geom_segment(size = 1, aes(color = gender), show.legend = F) +
-  # label the segments with the first_name of the person
-  geom_text(aes(label = first_name, color = gender), hjust = 0, size = 3, vjust = 0) +
-  labs(x = NULL, y = NULL, title = "Family Gantt Chart") +
+p$gantt <- ggplot(gantt, aes(y = machine, yend = machine, x = birth, xend = ifelse(is.na(death),1960,death))) +
+  geom_segment(size = 1, color='gray') +
+  geom_segment(data = gantt %>% filter(!is.na(chosen_one)), size = 1, aes(color = chosen_one)) +
+  geom_text(data=gantt %>% filter(gender=='M'),
+    aes(label = first_name), hjust = 0, size = 3, vjust = -0.3, show.legend = FALSE, color = "blue") +
+  geom_text(data=gantt %>% filter(gender=='F'),
+    aes(label = first_name), hjust = 0, size = 3, vjust = -0.3, show.legend = FALSE, color = "red") +
+  labs(x = NULL, y = NULL, title = NULL) +
   theme(panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
         axis.ticks.y = element_blank(),
-        axis.text.y = element_blank())
+        axis.text.y = element_blank(),
+        legend.position = c(0,.5), legend.justification = c(0, 0.5),
+  ) +
+  expand_limits(y = 31) +
+  scale_color_manual('Chosen One',values=wes_palette(name = "GrandBudapest1"))
+
+chosen_ones <- family %>% select(birth,death,first_name,chosen_one) %>%
+  filter(!is.na(chosen_one) & !is.na(birth)) %>%
+  mutate(
+    death = ifelse(is.na(death), 1960, death),
+    year = map2(birth, death, ~ seq(.x, .y, by = 1))) %>%
+  unnest(year)
+
+p$chosen <- chosen_ones %>% ggplot() +
+  geom_histogram(
+    aes(x=year, fill=chosen_one),position = 'stack',
+    bins=max(chosen_ones$year)-min(chosen_ones$year),
+    show.legend = FALSE
+  ) +
+  theme(panel.grid.minor.y = element_blank(),
+        legend.position = c(0,.5), legend.justification = c(0, 0.5),
+  ) +
+  labs(x=NULL,y='Count', title='Chosen Ones') +
+  scale_fill_manual(values=wes_palette(name = "GrandBudapest1"))
+
+plot_grid(p$gantt,p$chosen,nrow=2, rel_heights = c(1, 0.3))
+ggsave('charts/family_gantt.png', width = 10, height = 6, dpi = 300)
+
 
 family %>%
   filter(!is.na(death)) %>%
@@ -431,29 +459,107 @@ family %>%
 
 family %>% group_by(gender) %>% tally()
 
+# -------
+parents <- family %>% mutate(parent_id=mom, parent='Mother', child_born=birth) %>%
+  select(parent_id, parent,child_born) %>%
+  merge(family %>% select(id,birth),by.x='parent_id',by.y='id') %>%
+  rbind(
+    family %>% mutate(parent_id=dad, parent='Father', child_born=birth) %>%
+  select(parent_id, parent,child_born) %>%
+  merge(family %>% select(id,birth),by.x='parent_id',by.y='id')
+  ) %>% filter(!is.na(birth) & !is.na(child_born)) %>%
+  group_by(parent_id,parent) %>% mutate(age=child_born-birth)
+
+df <- parents %>% mutate(var11=age,release=birth,color=parent,group=parent_id)
+p <- create_plots2(
+  df,title12 = 'Age', title11='Parental Age', label11 = 'Age Distribution',
+  extra_layers_p11 = list(
+    geom_hline(data=df %>% filter(color=='Father'),aes(yintercept = mean(age),color=color)),
+    geom_hline(data=df %>% filter(color=='Mother'),aes(yintercept = mean(age),color=color)),
+    scale_color_manual('Parent',values=wes_palette(n=5,name = "FantasticFox1")[c(3,5)]),
+    theme(legend.position = c(1,1), legend.justification = c(1,1))
+    ),
+  output_filename = 'family_parent_age'
+  )
+
+parents.stat<- parents %>% group_by(parent_id,parent) %>%
+  summarise(
+    kids = n(),
+    mean_kid = mean(age),
+    first_kid = min(age),
+    last_kid = max(age)
+)
+
+p$p21<-
+  ggplot(parents.stat, aes(x = kids, fill = parent)) +
+  geom_histogram(bins = max(parents.stat$kids), position = "dodge") +
+  geom_text(stat = 'count', aes(label = ..count.., color = parent, hjust=ifelse(parent=='Mother',-1,1)),
+            vjust =    -1) +
+    scale_fill_manual("Parent",values=wes_palette(n=5,name = "FantasticFox1")[c(3,5)])+
+    scale_color_manual("Parent",values=wes_palette(n=5,name = "FantasticFox1")[c(3,5)])+
+    theme(legend.position = c(1,1), legend.justification = c(1,1),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())+
+  labs(x = 'Number of Children', y = 'Parents', title = 'Number of Children per Parent') +
+  scale_y_continuous(expand = c(0, 45 * .2))
+
+
+
+marriage <- read.csv('marriage.csv') %>%
+  merge(family %>% select(id,birth)%>% rename(female_born=birth),by.x='female',by.y='id') %>%
+  merge(family %>% select(id,birth) %>% rename(male_born=birth), by.x='male',by.y='id') %>%
+  mutate(age_difference=abs(female_born-male_born),older=ifelse(male_born < female_born,'Male',
+                                                                ifelse(male_born>female_born,'Female',NA)))
+p$p22 <- ggplot(marriage, aes(x=age_difference))+
+  geom_histogram(bins=10,aes(fill=older))+
+  labs(x='Years',y='Number of Marriages',title='Age Difference Between Spouses',
+       fill='Older Spouse')+
+  scale_x_continuous(breaks = seq(-20, 20, 5), expand = c(0, 0))+
+  scale_y_continuous(expand = c(0, 0))+
+  scale_fill_manual(values=wes_palette(n=5,name = "FantasticFox1")[c(5,3)])+
+  theme(legend.position = c(1,1), legend.justification = c(1,1),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+p$new <- plot_grid(p$plot,plot_grid(p$p22,p$p21,ncol=1),ncol=2, rel_widths = c(1, 0.5))
+ggsave('charts/family_parent_age.png',plot=p$new,width=12,height=5,dpi=300)
+
+
+parents.stat %>%
+  group_by(parent) %>%
+  summarise(
+    mean_age=mean(mean_kid),
+    age_first=mean(first_kid),
+    age_last=mean(last_kid),
+    only_one = sum(kids == 1),
+    more_than_one = sum(kids > 1),
+    max_kids=max(kids),
+    mean_kids=mean(kids)
+  )
+
 
 # ------------------------------------------------------------
-dates <- books %>%
-  select(id, est_publication) %>%
-  rename(release = est_publication) %>%
-  mutate(type = 'Book')
 
-alvarpid %>% glimpse()
+library(kinship2)
+family <- read.csv('family.csv')
+
+df <- family %>%filter(id>0 & id<200) %>%
+  filter(!is.na(gender)) %>%
+    mutate(
+    sex = ifelse(is.na(gender),1,ifelse(gender=='M',1,2)),
+    famid=1,
+    momid = ifelse(is.na(dad),NA,mom),
+    dadid = ifelse(is.na(mom),NA,dad),
+  ) %>%
+  select(id, sex, dadid,momid,famid,name)
+
+foo <- pedigree(id = df$id,
+                dadid = df$dadid,
+                momid = df$momid,
+                sex = df$sex,
+                famid = df$famid,)
 
 
-# ------------------------------------------------------------
+ped <- foo['1']
 
-marriage <- read.csv('marriage.csv')
-
-
-family %>%
-  select(id, children) %>%
-  filter(!is.na(children)) %>%
-  separate_rows(children, sep = ";") %>%
-  group_by(id) %>%
-  summarise(children = list(children))
-
-
-gantt <- read.csv('gantt_order.csv')
-gantt %>% ggplot(aes(y = as.factor(machine), yend = as.factor(machine), x = starting_time, xend = end_time, color = id)) + geom_segment()
-gantt %>% summarise(n = length(unique(machine)))
+plot(ped)
