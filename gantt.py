@@ -43,16 +43,19 @@ def schedule_jobs(df):
             for k in range(max_machines):
                 if x[i,k].x > 0.5:  # job i is assigned to machine k
                     df.loc[i, "machine"] = k
-        return df
+
+        # Count the number of machines used
+        num_machines = len([y[k] for k in range(max_machines) if y[k].x > 0.5])
+
+        return df, num_machines
     else:
-        return None
+        return None, None
 
 
 # Read data from family.csv
 family = pd.read_csv("family.csv", encoding="latin1")
-
-# Select relevant columns
-data = family[["id", "birth", "death"]]
+# Select the relevant columns
+data = family[["id", "birth", "death"]].copy()
 # if death is missing, set it to 1960, which is the end of the book
 data["death"] = data["death"].fillna(1960)
 
@@ -66,6 +69,13 @@ data = data.dropna().reset_index(drop=True)
 data["starting_time"] = data["starting_time"].astype(int)
 data["end_time"] = data["end_time"].astype(int)
 
+# add some slack the end time
+data["end_time"] = data["end_time"] + 2
+
 # Optimize the Gantt chart
-gantt_order = schedule_jobs(data)
-gantt_order.to_csv("gantt_order.csv", index=False)
+gantt_order, num_machines = schedule_jobs(data)
+if gantt_order is not None:
+    gantt_order.to_csv("gantt_order.csv", index=False)
+    print(f"The Gantt chart is saved as gantt_order.csv - used {num_machines} machines")
+else:
+    print("No feasible solution found")

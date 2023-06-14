@@ -4,6 +4,19 @@ library(cowplot)
 library(ggdist)
 library(ggrepel)
 theme_set(theme_minimal())
+# turn off warnings for now
+options(warn = -1)
+# clear all variables and plots
+rm(list = ls())
+
+chosen_palette <- wes_palette(name = "GrandBudapest1")
+general_palette <- wes_palette(name = "Rushmore")
+long_palette <- c(wes_palette(name = "GrandBudapest1"),wes_palette(name = "GrandBudapest2"))
+four_palette <- wes_palette(name = 'GrandBudapest2')
+three_palette <- wes_palette(name = "Royal2")[c(1, 3, 5)]
+two_palette <- wes_palette(n = 5, name = "FantasticFox1")[c(3, 5)]
+remark_color <- wes_palette(name = "Chevalier1")[1]
+
 source('quadrant_plot.R')
 
 books <- read.csv("books.csv", sep = ',') %>%
@@ -60,7 +73,8 @@ create_plots(
     annotate("text", x = translator$change, y = Inf, label = translator$started, vjust = -1, hjust = 1, color = 'gray20',
              angle = 90),
     annotate("text", x = translator$change, y = Inf, label = translator$finished, vjust = 1.5, hjust = 1, color =
-      'gray20', angle = 90)
+      'gray20', angle = 90),
+    scale_color_manual(values = general_palette)
   )) -> p
 
 books %>%
@@ -112,8 +126,6 @@ storytel %>%
   group_by(weekday) %>%
   tally()
 
-max(storytel$audiobook) - min(storytel$audiobook)
-
 storytel %>% ggplot(aes(x = audiobook, y = reviews)) +
   geom_line() +
   geom_point(aes(color = as.factor(rating), size = hours)) +
@@ -137,29 +149,32 @@ df <- storytel %>%
          color = reader) %>%
   rename(release = audiobook)
 
-p <- create_plots2(df, title11 = 'Running Time', label11 = 'Hours Read',
-                   extra_layers_p11 = list(
-                     theme(legend.position = c(1, 0), legend.justification = c(1, 0), legend.box.just = "right"),
-                     guides(color = guide_legend("Reader", nrow = 4, byrow = TRUE))
-                   )
+p <- create_plots2(
+  df, title11 = 'Running Time', label11 = 'Hours Read',
+  extra_layers_p11 = list(
+    scale_color_manual(values = four_palette),
+    theme(legend.position = c(1, 0), legend.justification = c(1, 0), legend.box.just = "right"),
+    guides(color = guide_legend("Reader", nrow = 4, byrow = TRUE))
+  )
 )
 p$p21 = storytel %>%
   ggplot(aes(hours, pages, color = reader)) +
   geom_smooth(method = 'lm', alpha = 0.2) +
   geom_point(size = 2) +
+  scale_color_manual(values = four_palette) +
   labs(x = 'Hours Read', y = 'Pages Read', title = 'Reading Speed', color = 'Reader') +
   theme(legend.position = 'none')
 p$p22 <- df %>%
   ggplot(aes(var22)) +
-  geom_histogram(stat = 'count') +
+  geom_histogram(stat = 'count', aes(fill = var22), show.legend = F) +
   # write the percentage and count on top of the bars = cant use statbin because it doesnt work with factors
   geom_text(stat = 'count', aes(label = paste0(round(..count.. / sum(..count..) * 100, 1), "%\n#", ..count..)),
             vjust = +0.5) +
   scale_y_continuous(expand = c(0, 2.5)) +
+  scale_fill_manual(values = four_palette) +
   labs(title = 'Books Read', x = NULL, y = 'Books')
 plot_grid(p$plot, plot_grid(p$p21, p$p22, ncol = 1), ncol = 2, rel_widths = c(1, 0.5))
 ggsave(filename = 'charts/storytel_readers.png', width = 10, height = 5, units = 'in', dpi = 300)
-
 
 p <- create_plots2(storytel %>% rename(release = audiobook, var11 = reviews),
                    title11 = 'Number of Reviews by Audiobook Release Date', label11 = 'Number of Reviews',
@@ -177,8 +192,6 @@ alvarpid <- read.csv('alvarpid.csv') %>%
     next_release = lead(release),
     weekday = weekdays(release),
     days_to_next = as.numeric(next_release - release)
-    # split the length into 10 minute intervals
-    #length_discrete = cut(length, breaks = seq(0, 100, 15), include.lowest = TRUE, right = FALSE),
   ) %>%
   merge(books %>%
           select(id, is_title) %>%
@@ -197,14 +210,15 @@ create_plots(
   output_filename = "alvarpid_listeners", scale_y_log10 = TRUE, scale_x_log10 = TRUE,
   extra_layers_p11 = list(
     geom_point(data = df %>% filter(!is.na(var22)),
-               aes(color = interaction(var22, is_title, sep = ') ')), size = 2),
+               aes(color = interaction(var22, is_title, sep = ') ')), size = 3),
     geom_text(data = df %>% filter(id == 0),
-              aes(label = paste0('Introduction: #', var11)), color = 'red',
+              aes(label = paste0('Introduction: #', var11)), color = remark_color,
               hjust = -0.1, vjust = 1),
     geom_text(data = df %>% filter(id == max(alvarpid$id)),
-              aes(label = paste0('Final Episode: #', var11)), color = 'red',
+              aes(label = paste0('Final Episode: #', var11)), color = remark_color,
               angle = 90, hjust = -0.1, vjust = 0.5),
     labs(color = NULL),
+    scale_color_manual(values = long_palette),
     theme(legend.position = c(0.8, 0.75))
   )) -> p
 
@@ -236,12 +250,12 @@ p <- create_plots2(
   title11 = 'Reviews by Podcast Release', label11 = 'Reviews', label12 = 'Review Distribution',
   extra_layers_p11 = list(
     geom_text(data = df %>% filter(episode == 0),
-              aes(label = paste0('Introduction: #', var11)), color = 'red',
+              aes(label = paste0('Introduction: #', var11)), color = remark_color,
               hjust = -0.1, vjust = 1,
     ),
     # annotate the last point with text
     geom_text(data = df %>% filter(episode > 47 * 2),
-              aes(label = paste0('Final Remarks: #', var11)), color = 'red',
+              aes(label = paste0('Final Remarks: #', var11)), color = remark_color,
               angle = 90, hjust = -0.1, vjust = 0.5,
     )
   ),
@@ -254,7 +268,6 @@ p <- create_plots2(
   title11 = 'Ratings by Podcast Release', label11 = 'Ratings', label12 = 'Rating Distribution',
   output_filename = 'iskisur_ratings'
 )
-
 df <- iskisur %>%
   rename(var11 = length) %>%
   filter(!is.na(release))
@@ -357,7 +370,10 @@ family <- read.csv('family.csv', sep = ',') %>%
          ancestry = ifelse(!is.na(mom) & !is.na(dad), 'Pure',
                            ifelse(!is.na(mom) | !is.na(dad), 'Half', 'No')),
          ancestry = factor(ancestry, levels = c('No', 'Half', 'Pure'),
-                           labels = c('Muggles', 'Half-blood', 'Pure-blood'))
+                           labels = c('Muggles', 'Half-blood', 'Pure-blood')),
+         chosen_one = factor(chosen_one, levels = c('good', 'converted', 'evil'),
+                             labels = c('Good', 'Converted', 'Evil')
+         )
   )
 df <- family %>%
   filter(!is.na(age)) %>%
@@ -366,7 +382,7 @@ df <- family %>%
   mutate(
     color = var22,
     gender = ifelse(is.na(gender), 'U', gender),
-    shape = factor(gender, levels = c('F', 'M', 'U'), labels = c('Female', 'Male', 'Unknown')),
+    shape = factor(gender, levels = c('M', 'F', 'U'), labels = c('Male', 'Female', 'Unknown')),
   )
 df %>% group_by(gender) %>% tally()
 df %>% group_by(chosen_one) %>% tally()
@@ -382,11 +398,11 @@ p <- create_plots(
           legend.direction = 'vertical', legend.box = 'horizontal',
           legend.key.size = unit(0.5, 'cm'), legend.key.height = unit(0.5, 'cm'),
     ),
-    guides(shape = guide_legend(order = 2), color = guide_legend(order = 1))
+    guides(shape = guide_legend(order = 2), color = guide_legend(order = 1)),
+    scale_color_manual(values = three_palette)
   ),
   output_filename = 'family_birth'
 )
-p$plot
 
 families <- c('af att Isfolksins', 'Meiden', 'Paladin', 'Stege', 'Tark', 'Grip', 'Gard', 'Brink', 'Skogsrud', 'Volden',
               'Lind')
@@ -394,9 +410,10 @@ family <- family %>%
   mutate(
     first_name = str_extract(name, '^[^ ]+'),
     family_name = iconv(name, to = "ASCII//TRANSLIT"),
-    family_name = map(family_name, ~str_extract_all(., families) %>%
+    family_names = map(family_name, ~str_extract_all(., families) %>%
       unlist() %>%
-      unique())
+      unique()),
+    family_name = map_chr(family_names, ~paste(., collapse = ', '))
   )
 
 family %>%
@@ -413,43 +430,44 @@ gantt <- read.csv('gantt_order.csv') %>%
   mutate(machine = as.factor(machine))
 
 # Create the Gantt chart
-p$gantt <- ggplot(gantt, aes(y = machine, yend = machine, x = birth, xend = ifelse(is.na(death),1960,death))) +
-  geom_segment(size = 1, color='gray') +
+p$gantt <- ggplot(gantt, aes(y = machine, yend = machine, x = birth, xend = ifelse(is.na(death), 1960, death))) +
+  geom_segment(size = 1, color = 'gray') +
   geom_segment(data = gantt %>% filter(!is.na(chosen_one)), size = 1, aes(color = chosen_one)) +
-  geom_text(data=gantt %>% filter(gender=='M'),
-    aes(label = first_name), hjust = 0, size = 3, vjust = -0.3, show.legend = FALSE, color = "blue") +
-  geom_text(data=gantt %>% filter(gender=='F'),
-    aes(label = first_name), hjust = 0, size = 3, vjust = -0.3, show.legend = FALSE, color = "red") +
-  labs(x = NULL, y = NULL, title = NULL) +
+  geom_text(data = gantt %>% filter(gender == 'M'),
+            aes(label = first_name), hjust = 0, size = 3, vjust = -0.3, show.legend = FALSE, color = two_palette[1]) +
+  geom_text(data = gantt %>% filter(gender == 'F'),
+            aes(label = first_name), hjust = 0, size = 3, vjust = -0.3, show.legend = FALSE, color = two_palette[2]) +
+  labs(x = NULL, y = '', title = NULL) +
   theme(panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
         axis.ticks.y = element_blank(),
         axis.text.y = element_blank(),
-        legend.position = c(0,.5), legend.justification = c(0, 0.5),
+        legend.position = c(0, .5), legend.justification = c(0, 0.5),
   ) +
   expand_limits(y = 31) +
-  scale_color_manual('Chosen One',values=wes_palette(name = "GrandBudapest1"))
+  scale_color_manual('Chosen One', values = three_palette)
 
-chosen_ones <- family %>% select(birth,death,first_name,chosen_one) %>%
+chosen_ones <- family %>%
+  select(birth, death, first_name, chosen_one) %>%
   filter(!is.na(chosen_one) & !is.na(birth)) %>%
   mutate(
     death = ifelse(is.na(death), 1960, death),
-    year = map2(birth, death, ~ seq(.x, .y, by = 1))) %>%
+    year = map2(birth, death, ~seq(.x, .y, by = 1))) %>%
   unnest(year)
 
 p$chosen <- chosen_ones %>% ggplot() +
   geom_histogram(
-    aes(x=year, fill=chosen_one),position = 'stack',
-    bins=max(chosen_ones$year)-min(chosen_ones$year),
+    aes(x = year, fill = chosen_one), position = 'stack',
+    bins = max(chosen_ones$year) - min(chosen_ones$year),
     show.legend = FALSE
   ) +
   theme(panel.grid.minor.y = element_blank(),
-        legend.position = c(0,.5), legend.justification = c(0, 0.5),
+        legend.position = c(0, .5), legend.justification = c(0, 0.5),
   ) +
-  labs(x=NULL,y='Count', title='Chosen Ones') +
-  scale_fill_manual(values=wes_palette(name = "GrandBudapest1"))
+  labs(x = NULL, y = 'Count', title = 'Chosen Ones') +
+  scale_fill_manual(values = three_palette)
 
-plot_grid(p$gantt,p$chosen,nrow=2, rel_heights = c(1, 0.3))
+plot_grid(p$gantt, p$chosen, nrow = 2, rel_heights = c(1, 0.3))
 ggsave('charts/family_gantt.png', width = 10, height = 6, dpi = 300)
 
 
@@ -459,107 +477,95 @@ family %>%
 
 family %>% group_by(gender) %>% tally()
 
+fab_five <- family %>% filter(id %in% c(134, 135, 97, 116, 125))
+
 # -------
-parents <- family %>% mutate(parent_id=mom, parent='Mother', child_born=birth) %>%
-  select(parent_id, parent,child_born) %>%
-  merge(family %>% select(id,birth),by.x='parent_id',by.y='id') %>%
+parents <- family %>%
+  mutate(parent_id = mom, parent = 'Mother', child_born = birth) %>%
+  select(parent_id, parent, child_born) %>%
+  merge(family %>% select(id, birth), by.x = 'parent_id', by.y = 'id') %>%
   rbind(
-    family %>% mutate(parent_id=dad, parent='Father', child_born=birth) %>%
-  select(parent_id, parent,child_born) %>%
-  merge(family %>% select(id,birth),by.x='parent_id',by.y='id')
-  ) %>% filter(!is.na(birth) & !is.na(child_born)) %>%
-  group_by(parent_id,parent) %>% mutate(age=child_born-birth)
+    family %>%
+      mutate(parent_id = dad, parent = 'Father', child_born = birth) %>%
+      select(parent_id, parent, child_born) %>%
+      merge(family %>% select(id, birth), by.x = 'parent_id', by.y = 'id')
+  ) %>%
+  filter(!is.na(birth) & !is.na(child_born)) %>%
+  group_by(parent_id, parent) %>%
+  mutate(age = child_born - birth, parent = factor(parent, levels = c('Father', 'Mother')))
 
-df <- parents %>% mutate(var11=age,release=birth,color=parent,group=parent_id)
+df <- parents %>% mutate(var11 = age, release = birth, color = parent, group = parent_id)
 p <- create_plots2(
-  df,title12 = 'Age', title11='Parental Age', label11 = 'Age Distribution',
+  df, title12 = 'Age', title11 = 'Parental Age', label11 = 'Age Distribution',
   extra_layers_p11 = list(
-    geom_hline(data=df %>% filter(color=='Father'),aes(yintercept = mean(age),color=color)),
-    geom_hline(data=df %>% filter(color=='Mother'),aes(yintercept = mean(age),color=color)),
-    scale_color_manual('Parent',values=wes_palette(n=5,name = "FantasticFox1")[c(3,5)]),
-    theme(legend.position = c(1,1), legend.justification = c(1,1))
-    ),
+    geom_hline(data = df %>% filter(color == 'Father'), aes(yintercept = mean(age), color = color)),
+    geom_hline(data = df %>% filter(color == 'Mother'), aes(yintercept = mean(age), color = color)),
+    scale_color_manual('Parent', values = two_palette),
+    theme(legend.position = c(1, 1), legend.justification = c(1, 1))
+  ),
   output_filename = 'family_parent_age'
-  )
+)
 
-parents.stat<- parents %>% group_by(parent_id,parent) %>%
+parents.stat <- parents %>%
+  group_by(parent_id, parent) %>%
   summarise(
     kids = n(),
     mean_kid = mean(age),
     first_kid = min(age),
     last_kid = max(age)
-)
+  )
 
-p$p21<-
+p$p21 <-
   ggplot(parents.stat, aes(x = kids, fill = parent)) +
-  geom_histogram(bins = max(parents.stat$kids), position = "dodge") +
-  geom_text(stat = 'count', aes(label = ..count.., color = parent, hjust=ifelse(parent=='Mother',-1,1)),
-            vjust =    -1) +
-    scale_fill_manual("Parent",values=wes_palette(n=5,name = "FantasticFox1")[c(3,5)])+
-    scale_color_manual("Parent",values=wes_palette(n=5,name = "FantasticFox1")[c(3,5)])+
-    theme(legend.position = c(1,1), legend.justification = c(1,1),
-        panel.grid.minor.y = element_blank(),
-        panel.grid.minor.x = element_blank())+
-  labs(x = 'Number of Children', y = 'Parents', title = 'Number of Children per Parent') +
-  scale_y_continuous(expand = c(0, 45 * .2))
-
-
+    geom_histogram(bins = max(parents.stat$kids), position = "dodge") +
+    geom_text(stat = 'count', aes(label = ..count.., color = parent, hjust = ifelse(parent == 'Mother', -1, 1)),
+              vjust = -1) +
+    scale_fill_manual("Parent", values = two_palette) +
+    scale_color_manual("Parent", values = two_palette) +
+    theme(legend.position = c(1, 1), legend.justification = c(1, 1),
+          panel.grid.minor.y = element_blank(),
+          panel.grid.minor.x = element_blank()) +
+    labs(x = 'Number of Children', y = 'Parents', title = 'Number of Children per Parent') +
+    scale_y_continuous(expand = c(0, 45 * .2))
 
 marriage <- read.csv('marriage.csv') %>%
-  merge(family %>% select(id,birth)%>% rename(female_born=birth),by.x='female',by.y='id') %>%
-  merge(family %>% select(id,birth) %>% rename(male_born=birth), by.x='male',by.y='id') %>%
-  mutate(age_difference=abs(female_born-male_born),older=ifelse(male_born < female_born,'Male',
-                                                                ifelse(male_born>female_born,'Female',NA)))
-p$p22 <- ggplot(marriage, aes(x=age_difference))+
-  geom_histogram(bins=10,aes(fill=older))+
-  labs(x='Years',y='Number of Marriages',title='Age Difference Between Spouses',
-       fill='Older Spouse')+
-  scale_x_continuous(breaks = seq(-20, 20, 5), expand = c(0, 0))+
-  scale_y_continuous(expand = c(0, 0))+
-  scale_fill_manual(values=wes_palette(n=5,name = "FantasticFox1")[c(5,3)])+
-  theme(legend.position = c(1,1), legend.justification = c(1,1),
+  merge(family %>%
+          select(id, birth) %>%
+          rename(female_born = birth), by.x = 'female', by.y = 'id') %>%
+  merge(family %>%
+          select(id, birth) %>%
+          rename(male_born = birth), by.x = 'male', by.y = 'id') %>%
+  mutate(age_difference = abs(female_born - male_born), older = ifelse(male_born < female_born, 'Male',
+                                                                       ifelse(male_born > female_born, 'Female', NA)))
+p$p22 <- ggplot(marriage, aes(x = age_difference)) +
+  geom_histogram(bins = 10, aes(fill = older)) +
+  labs(x = 'Years', y = 'Number of Marriages', title = 'Age Difference Between Spouses',
+       fill = 'Older Spouse') +
+  scale_x_continuous(breaks = seq(-20, 20, 5), expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_fill_manual(values = two_palette) +
+  theme(legend.position = c(1, 1), legend.justification = c(1, 1),
         panel.grid.minor.y = element_blank(),
         panel.grid.minor.x = element_blank())
 
-p$new <- plot_grid(p$plot,plot_grid(p$p22,p$p21,ncol=1),ncol=2, rel_widths = c(1, 0.5))
-ggsave('charts/family_parent_age.png',plot=p$new,width=12,height=5,dpi=300)
+p$new <- plot_grid(p$plot, plot_grid(p$p22, p$p21, ncol = 1), ncol = 2, rel_widths = c(1, 0.5))
+ggsave('charts/family_parent_age.png', plot = p$new, width = 12, height = 5, dpi = 300)
 
 
 parents.stat %>%
   group_by(parent) %>%
   summarise(
-    mean_age=mean(mean_kid),
-    age_first=mean(first_kid),
-    age_last=mean(last_kid),
+    mean_age = mean(mean_kid),
+    age_first = mean(first_kid),
+    age_last = mean(last_kid),
     only_one = sum(kids == 1),
     more_than_one = sum(kids > 1),
-    max_kids=max(kids),
-    mean_kids=mean(kids)
+    max_kids = max(kids),
+    mean_kids = mean(kids)
   )
 
+fab_five
 
-# ------------------------------------------------------------
-
-library(kinship2)
-family <- read.csv('family.csv')
-
-df <- family %>%filter(id>0 & id<200) %>%
-  filter(!is.na(gender)) %>%
-    mutate(
-    sex = ifelse(is.na(gender),1,ifelse(gender=='M',1,2)),
-    famid=1,
-    momid = ifelse(is.na(dad),NA,mom),
-    dadid = ifelse(is.na(mom),NA,dad),
-  ) %>%
-  select(id, sex, dadid,momid,famid,name)
-
-foo <- pedigree(id = df$id,
-                dadid = df$dadid,
-                momid = df$momid,
-                sex = df$sex,
-                famid = df$famid,)
-
-
-ped <- foo['1']
-
-plot(ped)
+# -----------------
+source('pedigree.R')
+print('done')

@@ -1,47 +1,32 @@
 create_plots2 <- function(df,
-                          label11 = NULL, label12 = NULL,
+                          label11 = NULL, label12 = '',
                           title11 = NULL, title12 = NULL,
                           output_filename = NULL,
                           scale_y_log10 = F,
                           p11 = NULL, p12 = NULL,
                           extra_layers_p11 = NULL) {
 
-  if (!"alpha" %in% colnames(df)) {
-    df$alpha <- 1
-  }
-  if (!"group" %in% colnames(df)) {
-    df$group <- 1
-  }
-  if (!"color" %in% colnames(df)) {
-    df$color <- '1'
-  }
-  if (!"shape" %in% colnames(df)) {
-    df$shape <- '1'
-  }
-
   if (is.null(p11)) {
+    if (!"group" %in% colnames(df)) {
+      df$group <- 1
+    }
+
     p11 <- df %>%
       filter(!is.na(release) & !is.na(var11)) %>%
       ggplot(aes(x = release, y = var11)) +
       geom_hline(aes(yintercept = median(var11)), color = "gray", linetype = "dashed") +
       geom_hline(aes(yintercept = mean(var11)), color = "gray", linetype = "dotted") +
-      geom_point(aes(alpha = alpha, color = color, shape = shape), size = 3) +
       geom_line(aes(group = group)) +
       labs(title = title11, x = NULL, y = label11)
 
-    # if there is only one value in color then disable labs
-    if (length(unique(df$color)) == 1) {
-      p11 <- p11 + # set to black to avoid warning
-        scale_color_manual(values = c("1" = "black")) +
-        guides(color = FALSE)
-    }
-    # if there is only one shape in color then disable labs
-    if (length(unique(df$shape)) == 1) {
-      p11 <- p11 + guides(shape = FALSE)
-    }
-    # if there is only one value in alpha then disable labs
-    if (length(unique(df$alpha)) == 1) {
-      p11 <- p11 + guides(alpha = FALSE)
+    if (!"color" %in% colnames(df)) {
+      p11 <- p11 + geom_point(size = 3)
+    } else if (!"shape" %in% colnames(df)) {
+      p11 <- p11 + geom_point(aes(color = color), size = 3)
+    } else if (!"alpha" %in% colnames(df)) {
+      p11 <- p11 + geom_point(aes(color = color, shape = shape), size = 3)
+    } else {
+      p11 <- p11 + geom_point(aes(color = color, shape = shape, alpha = alpha), size = 3)
     }
   }
 
@@ -64,9 +49,9 @@ create_plots2 <- function(df,
     p11 <- p11 + scale_y_log10()
     p12 <- p12 + scale_y_log10()
   }
-  plot_grid(p11, p12, ncol = 2, rel_widths = c(1, 0.5)) -> p
+  plot_grid(p11, p12, ncol = 2, rel_widths = c(1, 0.33)) -> p
   if (!is.null(output_filename)) {
-    ggsave(paste0("charts/", output_filename, ".png"), p, width = 10, height = 5, dpi = 300)
+    ggsave(paste0("charts/", output_filename, ".png"), p, width = 10, height = 4, dpi = 300)
   }
 
   return(list(p11 = p11, p12 = p12, plot = p))
@@ -75,7 +60,7 @@ create_plots2 <- function(df,
 create_plots <- function(
   df,
   label11 = NULL, label22 = NULL, label21 = NULL, label12 = NULL,
-  title11 = NULL, title12 = NULL, title21 = NULL, title22 = NULL,
+  title11 = NULL, title12 = '', title21 = NULL, title22 = NULL,
   output_filename = NULL,
   scale_y_log10 = F, scale_x_log10 = F,
   p11 = NULL, p12 = NULL, p21 = NULL, p22 = NULL,
