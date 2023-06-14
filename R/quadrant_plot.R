@@ -51,7 +51,7 @@ create_plots2 <- function(df,
   }
   plot_grid(p11, p12, ncol = 2, rel_widths = c(1, 0.33)) -> p
   if (!is.null(output_filename)) {
-    ggsave(paste0("charts/", output_filename, ".png"), p, width = 10, height = 4, dpi = 300)
+    ggsave(paste0("figures/", output_filename, ".png"), p, width = 10, height = 4, dpi = 300)
   }
 
   return(list(p11 = p11, p12 = p12, plot = p))
@@ -110,7 +110,7 @@ create_plots <- function(
   }
   plot_grid(p11, p12, p21, p22, ncol = 2, rel_widths = c(1, 0.5), rel_heights = c(1, 0.5)) -> p
   if (!is.null(output_filename)) {
-    ggsave(paste0("charts/", output_filename, ".png"), p, width = 10, height = 5, dpi = 300)
+    ggsave(paste0("figures/", output_filename, ".png"), p, width = 10, height = 5, dpi = 300)
   }
 
   return(list(p11 = p11, p12 = p12, p21 = p21, p22 = p22, plot = p))

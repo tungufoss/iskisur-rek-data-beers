@@ -18,6 +18,7 @@
 
 \usetikzlibrary{calc} % Required for customizing background
 \usepackage{booktabs} % Top and bottom rules for tables
+\usepackage{media9}
 
 \title{The Legend of the Cat People}
 \subtitle{An Engineering Perspective of the 80s Chick-Lit Sensation by Margit Sandemo (with Cat Memes)}
@@ -25,41 +26,33 @@
 \date{June 15\textsuperscript{th} 2023}
 
 \usetheme{default}
-\definecolor{haskolablatt}{RGB}{16,9,159}
-\definecolor{blue}{RGB}{16,9,159}
-\definecolor{bluegreen}{RGB}{45, 210, 192}
-\definecolor{green}{RGB}{0, 255, 186}
-\definecolor{yellow}{RGB}{250, 197, 91}
-\definecolor{red}{RGB}{252, 132, 132}
-\definecolor{orange}{RGB}{255, 160, 95}
-\definecolor{darkgray}{RGB}{238, 238, 238}
-\definecolor{lightgray}{RGB}{245, 245, 245}
-\definecolor{black}{RGB}{38, 38, 38}
-
 \usebackgroundtemplate{
     \tikz[overlay,remember picture]
     \node[opacity=0.3, at=(current page.center)] {
-        \includegraphics[width=\paperwidth,height=\paperheight]{figures/dalle-book-1}
+        \includegraphics[width=\paperwidth,height=\paperheight]{../figures/dalle-book-1}
     };
 }
 
 
-\newcommand{\customframe}[2]{
+\newcommand{\customframe}[3][]{
     \usebackgroundtemplate{
         \tikz[overlay,remember picture]
         \node[opacity=0.3, at=(current page.center)] {
-            \includegraphics[width=\paperwidth,height=\paperheight]{#1}
+            \includegraphics[width=\paperwidth,height=\paperheight]{#2}
         };
     }
     \begin{frame}
-        \subtitle{#2}
-        \author{}
-        \date{}
-        \titlepage
+        \Large\textbf{#3}\par  % Subtitle
+        \if\relax\detokenize{#1}\relax
+        \else
+        \medskip
+        \normalsize #1\par  % Additional text
+        \fi
         \thispagestyle{empty}
     \end{frame}
     \usebackgroundtemplate{}  % Reset the background for the following frames
 }
+
 
 % Document
 \begin{document}
@@ -69,18 +62,32 @@
 
     \input{about}
 
-    \customframe{figures/dalle-book-2}{The Book Series in the 80s}
+    \customframe{../figures/dalle-book-2}{The Book Series in the 80s}
     \input{books}
 
-    \customframe{figures/dalle-book-5}{Audiobooks on Storytel}
+    \customframe{../figures/dalle-book-5}{Audiobooks on Storytel}
     \input{audiobooks}
 
-    \customframe{figures/dalle-podcast}{The Syndicated Book Club}
+    \customframe{../figures/dalle-podcast}{The Syndicated Book Club}
     \input{iskisur}
 
-    \customframe{figures/dalle-book-3}{The Ice People}
+    \customframe{../figures/dalle-book-3}{The Ice People}
     \input{isfolkid}
 
-    \customframe{figures/dalle-keyboardcat}{Play Him Off, Keyboard Cat}
+    \customframe[
+    Fell free to contact me
+    via e-mail at \href{mailto:helgaingim@hi.is}{helgaingim@hi.is}
+    or on Twitter at \href{https://twitter.com/tungufoss}{@tungufoss.
+
+    Data is freely available at
+    \href{https://github.com/tungufoss/iskisur-rek-data-beers.git}{github.com/tungufoss/iskisur -rek-data-beers.git}.
+
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=south east,inner sep=0pt] at ($(current page.south east)+(0.5cm,0.5cm)$) {
+            \href{https://www.youtube.com/watch?v=DK7CVqbtW0A}{
+                \includegraphics[width=.3\textwidth]{../figures/dalle-keyboardcat}}
+        };
+    \end{tikzpicture}
+    ]{../figures/dalle-book-6}{Play Him Off, Keyboard Cat}
 
 \end{document}

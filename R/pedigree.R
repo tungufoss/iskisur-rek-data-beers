@@ -23,7 +23,7 @@ family_tree <- family_tree %>%
       mutate(id = momid, sex = 2, dadid = 0, momid = 0, famid = 1, label = 'Unknown', chosen_one = NA)
   )
 
-relation <- read.csv('marriage.csv') %>%
+relation <- read.csv('../data/marriage.csv') %>%
   rename(id1 = female, id2 = male, code = remark) %>%
   mutate(code = 4, famid = 1)
 
@@ -38,7 +38,7 @@ ped <- pedigree(id = family_tree$id,
 #### plot pedigree
 # ------------------------------------------------------------
 # Open a pdf device
-pdf('charts/family_tree.pdf', width = 12, height = 12)
+pdf('figures/family_tree.pdf', width = 12, height = 12)
 # Plot with colors
 plot(
   ped, cex = 0.6, id = family_tree$label,

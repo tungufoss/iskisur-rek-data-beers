@@ -19,7 +19,7 @@ remark_color <- wes_palette(name = "Chevalier1")[1]
 
 source('quadrant_plot.R')
 
-books <- read.csv("books.csv", sep = ',') %>%
+books <- read.csv("../data/books.csv", sep = ',') %>%
   mutate(
     is_release = ymd(is_release),
     est_publication = ymd(est_publication),
@@ -85,7 +85,7 @@ books %>%
   group_by(weekday_release) %>%
   tally()
 
-storytel <- read.csv('storytel_isfolkid.csv') %>%
+storytel <- read.csv('../data/storytel_isfolkid.csv') %>%
   mutate(
     audiobook = as.Date(audiobook), ebook = as.Date(ebook),
     reader = factor(reader, levels = unique(reader)),
@@ -174,7 +174,7 @@ p$p22 <- df %>%
   scale_fill_manual(values = four_palette) +
   labs(title = 'Books Read', x = NULL, y = 'Books')
 plot_grid(p$plot, plot_grid(p$p21, p$p22, ncol = 1), ncol = 2, rel_widths = c(1, 0.5))
-ggsave(filename = 'charts/storytel_readers.png', width = 10, height = 5, units = 'in', dpi = 300)
+ggsave(filename = 'figures/storytel_readers.png', width = 10, height = 5, units = 'in', dpi = 300)
 
 p <- create_plots2(storytel %>% rename(release = audiobook, var11 = reviews),
                    title11 = 'Number of Reviews by Audiobook Release Date', label11 = 'Number of Reviews',
@@ -186,7 +186,7 @@ p <- create_plots2(storytel %>% rename(release = audiobook, var11 = rating),
                    title12 = 'Rating', output_filename = 'storytel_ratings')
 
 # ------------------------------------------------------------
-alvarpid <- read.csv('alvarpid.csv') %>%
+alvarpid <- read.csv('../data/alvarpid.csv') %>%
   mutate(
     release = as.Date(release, format = '%Y-%m-%d'),
     next_release = lead(release),
@@ -235,7 +235,7 @@ alvarpid %>% summarise(
 )
 alvarpid %>% group_by(weekday) %>% tally()
 # ------------------------------------------------------------
-iskisur <- read.csv('storytel_iskisur.csv') %>%
+iskisur <- read.csv('../data/storytel_iskisur.csv') %>%
   mutate(
     release = as.Date(release, format = '%Y-%m-%d'),
     weekday = weekdays(release),
@@ -364,7 +364,7 @@ timeline %>% group_by(type, subtype) %>% tally()
 source('timeline.R')
 
 # ------------------------------------------------------------
-family <- read.csv('family.csv', sep = ',') %>%
+family <- read.csv('../data/family.csv', sep = ',') %>%
   mutate(age = ifelse(is.na(death), 1960, death) - birth,
          alpha = ifelse(is.na(death), TRUE, FALSE),
          ancestry = ifelse(!is.na(mom) & !is.na(dad), 'Pure',
@@ -427,7 +427,7 @@ family %>%
   arrange(desc(n))
 
 
-gantt <- read.csv('gantt_order.csv') %>%
+gantt <- read.csv('../data/gantt_order.csv') %>%
   merge(family, by = 'id', all.x = T) %>%
   mutate(machine = as.factor(machine))
 
@@ -485,7 +485,7 @@ p$chosen <- chosen_ones %>% ggplot() +
   )
 
 plot_grid(p$gantt, p$chosen, nrow = 2, rel_heights = c(1, 0.3))
-ggsave('charts/family_gantt.png', width = 10, height = 6, dpi = 300)
+ggsave('figures/family_gantt.png', width = 10, height = 6, dpi = 300)
 
 
 family %>%
@@ -545,7 +545,7 @@ p$p21 <-
     labs(x = 'Number of Children', y = 'Parents', title = 'Number of Children per Parent') +
     scale_y_continuous(expand = c(0, 45 * .2))
 
-marriage <- read.csv('marriage.csv') %>%
+marriage <- read.csv('../data/marriage.csv') %>%
   merge(family %>%
           select(id, birth) %>%
           rename(female_born = birth), by.x = 'female', by.y = 'id') %>%
@@ -566,7 +566,7 @@ p$p22 <- ggplot(marriage, aes(x = age_difference)) +
         panel.grid.minor.x = element_blank())
 
 p$new <- plot_grid(p$plot, plot_grid(p$p22, p$p21, ncol = 1), ncol = 2, rel_widths = c(1, 0.5))
-ggsave('charts/family_parent_age.png', plot = p$new, width = 12, height = 5, dpi = 300)
+ggsave('figures/family_parent_age.png', plot = p$new, width = 12, height = 5, dpi = 300)
 
 
 parents.stat %>%

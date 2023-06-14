@@ -1,6 +1,6 @@
 library(wesanderson)
 # load data
-events <- read.csv("special_events.csv") %>%
+events <- read.csv("../data/special_events.csv") %>%
   mutate(date = as_date(date),
          enddate = as_date(enddate),
          period = ifelse(year(date) < 1990, '80s', 'Present Day'),
@@ -115,4 +115,4 @@ p2 <- ggplot() +
 # Combine plots
 p <- plot_grid(p1, p2, ncol = 1, rel_heights = c(1, 1.4))
 # Save the combined plot
-ggsave('charts/timeline.png', p, width = 10, height = 5, dpi = 300)
+ggsave('figures/timeline.png', p, width = 10, height = 5, dpi = 300)

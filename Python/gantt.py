@@ -53,7 +53,7 @@ def schedule_jobs(df):
 
 
 # Read data from family.csv
-family = pd.read_csv("family.csv", encoding="latin1")
+family = pd.read_csv("../data/family.csv", encoding="latin1")
 # Select the relevant columns
 data = family[["id", "birth", "death"]].copy()
 # if death is missing, set it to 1960, which is the end of the book
@@ -75,7 +75,7 @@ data["end_time"] = data["end_time"] + 2
 # Optimize the Gantt chart
 gantt_order, num_machines = schedule_jobs(data)
 if gantt_order is not None:
-    gantt_order.to_csv("gantt_order.csv", index=False)
+    gantt_order.to_csv("../data/gantt_order.csv", index=False)
     print(f"The Gantt chart is saved as gantt_order.csv - used {num_machines} machines")
 else:
     print("No feasible solution found")
