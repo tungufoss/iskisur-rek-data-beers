@@ -1,2 +1,11 @@
 # derived file from gantt.py
 gantt_order.csv
+
+# LaTeX Auxillary Files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.snm
+*.nav

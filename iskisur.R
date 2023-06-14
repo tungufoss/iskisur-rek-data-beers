@@ -11,7 +11,7 @@ rm(list = ls())
 
 chosen_palette <- wes_palette(name = "GrandBudapest1")
 general_palette <- wes_palette(name = "Rushmore")
-long_palette <- c(wes_palette(name = "GrandBudapest1"),wes_palette(name = "GrandBudapest2"))
+long_palette <- c(wes_palette(name = "GrandBudapest1"), wes_palette(name = "GrandBudapest2"))
 four_palette <- wes_palette(name = 'GrandBudapest2')
 three_palette <- wes_palette(name = "Royal2")[c(1, 3, 5)]
 two_palette <- wes_palette(n = 5, name = "FantasticFox1")[c(3, 5)]
@@ -384,7 +384,9 @@ df <- family %>%
     gender = ifelse(is.na(gender), 'U', gender),
     shape = factor(gender, levels = c('M', 'F', 'U'), labels = c('Male', 'Female', 'Unknown')),
   )
-df %>% group_by(gender) %>% tally()
+df %>% filter(!is.na(death)) %>%
+  group_by(gender) %>% summarise(n=n(), avg.age=mean(var11), median.age=median(var11),
+                                  max.age=max(var11), min.age=min(var11))
 df %>% group_by(chosen_one) %>% tally()
 
 p <- create_plots(
@@ -455,6 +457,17 @@ chosen_ones <- family %>%
     year = map2(birth, death, ~seq(.x, .y, by = 1))) %>%
   unnest(year)
 
+everyone <- family %>%
+  select(birth, death, first_name, id) %>%
+  filter(!is.na(birth) & id > 0 & id < 200) %>%
+  mutate(
+    death = ifelse(is.na(death), 1960, death),
+    year = map2(birth, death, ~seq(.x, .y, by = 1))) %>%
+  unnest(year) %>%
+  group_by(year) %>%
+  tally()
+
+
 p$chosen <- chosen_ones %>% ggplot() +
   geom_histogram(
     aes(x = year, fill = chosen_one), position = 'stack',
@@ -464,8 +477,12 @@ p$chosen <- chosen_ones %>% ggplot() +
   theme(panel.grid.minor.y = element_blank(),
         legend.position = c(0, .5), legend.justification = c(0, 0.5),
   ) +
-  labs(x = NULL, y = 'Count', title = 'Chosen Ones') +
-  scale_fill_manual(values = three_palette)
+  labs(x = NULL, y = 'Count', title = NULL) +
+  scale_fill_manual(values = three_palette) +
+  geom_line(data = everyone, aes(x = year, y = n)) +
+  geom_text(x = 1960, y = Inf, label = 'Everyone', color = remark_color,
+            hjust = 1.6, vjust = 1, size = 3, show.legend = FALSE
+  )
 
 plot_grid(p$gantt, p$chosen, nrow = 2, rel_heights = c(1, 0.3))
 ggsave('charts/family_gantt.png', width = 10, height = 6, dpi = 300)

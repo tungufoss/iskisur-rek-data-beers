@@ -1,0 +1,86 @@
+%! Author = helgaingim
+%! Date = 5.6.2023
+
+% Preamble
+\documentclass{beamer}
+
+% dark theme
+\usetheme{metropolis}
+
+
+% Packages
+\usepackage[T1]{fontenc} % Icelandic letters
+\usepackage[icelandic]{babel} % Icelandic hyphenation
+
+\usepackage{graphicx}  % Required for including graphics
+\usepackage{svg}       % Required for SVG support
+\usepackage{tikz}      % Required for customizing background
+
+\usetikzlibrary{calc} % Required for customizing background
+\usepackage{booktabs} % Top and bottom rules for tables
+
+\title{The Legend of the Cat People}
+\subtitle{An Engineering Perspective of the 80s Chick-Lit Sensation by Margit Sandemo (with Cat Memes)}
+\author{Dr. Helga Ingimundard\'{o}ttir}
+\date{June 15\textsuperscript{th} 2023}
+
+\usetheme{default}
+\definecolor{haskolablatt}{RGB}{16,9,159}
+\definecolor{blue}{RGB}{16,9,159}
+\definecolor{bluegreen}{RGB}{45, 210, 192}
+\definecolor{green}{RGB}{0, 255, 186}
+\definecolor{yellow}{RGB}{250, 197, 91}
+\definecolor{red}{RGB}{252, 132, 132}
+\definecolor{orange}{RGB}{255, 160, 95}
+\definecolor{darkgray}{RGB}{238, 238, 238}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+\definecolor{black}{RGB}{38, 38, 38}
+
+\usebackgroundtemplate{
+    \tikz[overlay,remember picture]
+    \node[opacity=0.3, at=(current page.center)] {
+        \includegraphics[width=\paperwidth,height=\paperheight]{figures/dalle-book-1}
+    };
+}
+
+
+\newcommand{\customframe}[2]{
+    \usebackgroundtemplate{
+        \tikz[overlay,remember picture]
+        \node[opacity=0.3, at=(current page.center)] {
+            \includegraphics[width=\paperwidth,height=\paperheight]{#1}
+        };
+    }
+    \begin{frame}
+        \subtitle{#2}
+        \author{}
+        \date{}
+        \titlepage
+        \thispagestyle{empty}
+    \end{frame}
+    \usebackgroundtemplate{}  % Reset the background for the following frames
+}
+
+% Document
+\begin{document}
+
+    \frame{\titlepage}
+    \usebackgroundtemplate{}
+
+    \input{about}
+
+    \customframe{figures/dalle-book-2}{The Book Series in the 80s}
+    \input{books}
+
+    \customframe{figures/dalle-book-5}{Audiobooks on Storytel}
+    \input{audiobooks}
+
+    \customframe{figures/dalle-podcast}{The Syndicated Book Club}
+    \input{iskisur}
+
+    \customframe{figures/dalle-book-3}{The Ice People}
+    \input{isfolkid}
+
+    \customframe{figures/dalle-keyboardcat}{Play Him Off, Keyboard Cat}
+
+\end{document}
