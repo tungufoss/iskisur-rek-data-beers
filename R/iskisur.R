@@ -2,7 +2,7 @@ library(tidyverse)
 library(lubridate)
 library(cowplot)
 library(ggdist)
-library(ggrepel)
+library(wesanderson)
 theme_set(theme_minimal())
 # turn off warnings for now
 options(warn = -1)
@@ -268,14 +268,37 @@ p <- create_plots2(
   title11 = 'Ratings by Podcast Release', label11 = 'Ratings', label12 = 'Rating Distribution',
   output_filename = 'iskisur_ratings'
 )
-df <- iskisur %>%
+
+df1 <- iskisur %>%
   rename(var11 = length) %>%
+  mutate(type = 'Storytel') %>%
   filter(!is.na(release))
 p <- create_plots2(
-  df,
-  title11 = 'Podcast Length by Release Date', label11 = 'Minutes', title12 = 'Episode Length',
-  output_filename = 'iskisur_length'
+  df1,
+  title11 = 'Podcast Length on Storytel', label11 = 'Minutes', title12 = 'Episode Length',
 )
+df2 <- alvarpid %>%
+  rename(var11 = length) %>%
+  mutate(type = 'Alvarp') %>%
+  filter(!is.na(release))
+q <- create_plots2(
+  df2,
+  title11 = 'Podcast Length on Alvarpid', label11 = 'Minutes', title12 = 'Episode Length',
+)
+plot_grid(q$plot, p$plot, ncol = 1)
+ggsave('figures/iskisur_length.png', width = 10, height = 4)
+
+df1 %>%
+  select(var11, type, release) %>%
+  rbind(df2 %>% select(var11, type,release)) %>%
+  group_by(type) %>%
+  summarise(
+    n = n(),
+    avg.length = mean(var11),
+    med.length = median(var11),
+    tot.length = sum(var11),
+    period = max(release) - min(release)
+  )
 
 # create a sequence with numbers 1:47 where the same number is repeated twice
 iskisur$book <- c(NA, rep(1:47, each = 2), NA, NA)
@@ -384,9 +407,11 @@ df <- family %>%
     gender = ifelse(is.na(gender), 'U', gender),
     shape = factor(gender, levels = c('M', 'F', 'U'), labels = c('Male', 'Female', 'Unknown')),
   )
-df %>% filter(!is.na(death)) %>%
-  group_by(gender) %>% summarise(n=n(), avg.age=mean(var11), median.age=median(var11),
-                                  max.age=max(var11), min.age=min(var11))
+df %>%
+  filter(!is.na(death)) %>%
+  group_by(gender) %>%
+  summarise(n = n(), avg.age = mean(var11), median.age = median(var11),
+            max.age = max(var11), min.age = min(var11))
 df %>% group_by(chosen_one) %>% tally()
 
 p <- create_plots(
