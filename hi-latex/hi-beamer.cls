@@ -45,7 +45,10 @@
 \newcommand{\setEMAIL}[1]{\def\EMAIL{#1}}
 \newcommand{\setDATE}[1]{\def\DATE{#1}}
 \newcommand{\setWIDE}[1]{\settoggle{WIDE}{#1}}
+\newcommand{\setICELANDIC}[1]{\settoggle{ICELANDIC}{#1}}
 
+\providetoggle{ICELANDIC}
+\settoggle{ICELANDIC}{false}
 \providetoggle{WIDE}
 \settoggle{WIDE}{false}
 \def\NAME{name}
@@ -66,6 +69,7 @@
 \define@key{hi-beamer}{EMAIL}{\setEMAIL{#1}}
 \define@key{hi-beamer}{DATE}{\setDATE{#1}}
 \define@key{hi-beamer}{WIDE}{\setWIDE{#1}}
+\define@key{hi-beamer}{ICELANDIC}{\setICELANDIC{#1}}
 
 \ProcessKeyvalOptions*
 
@@ -76,15 +80,22 @@
 }{}
 
 \title{%
-    \textbf{\large \ifdefempty{\PRETITLE}{}{\PRETITLE:~} \TITLE}
+    \textbf{\large \ifdefempty{\PRETITLE}{}{\PRETITLE:~\\} \TITLE}
     \ifdefempty{\SUBTITLE}{}{% Check if \SUBTITLE is empty
     \\\vspace{0.05cm}{\small \SUBTITLE}}%
     \\\vspace{0.2cm}{\small \textbf{\NAME { }<\EMAIL>}}%
     \\\vspace{-0.2cm}{\scriptsize \FACULTY}%
-    \\\vspace{0.1cm}{\small \SEMINAR: \DATE}
+    \\\vspace{0.2cm}{\small \SEMINAR: \DATE}
 }
 
 \date{}
+
+\newcommand{\hilogo}{
+    \iftoggle{ICELANDIC}
+    {hi-latex/hi-is}
+    {hi-latex/hi-en}
+}
+
 
 \setbeamertemplate{frametitle}{\color{blue}\insertframetitle}
 \setbeamerfont{institute}{size=\scriptsize,series=\mdseries,parent=structure}
@@ -119,7 +130,24 @@
     \titlepage
     \thispagestyle{empty}
     \end{frame}
-    \usebackgroundtemplate{\includegraphics[width=\paperwidth]{hi-latex/background.png}}
+    \usebackgroundtemplate{}
 }
+
+
+\setbeamertemplate{frametitle}{
+    \vspace*{0.5cm} % Adjust this value to change the vertical spacing before the title
+    \colorbox{blue}{
+        \begin{minipage}{0.8\textwidth}
+            \vspace*{0.1cm} % Adjust this for vertical padding
+            \color{white}\insertframetitle
+            \vspace*{0.1cm} % Adjust this for vertical padding
+        \end{minipage}
+        \begin{minipage}{0.2\textwidth}
+            \includegraphics[width=\linewidth]{\hilogo}
+        \end{minipage}
+    }
+}
+
+
 
 \endinput
