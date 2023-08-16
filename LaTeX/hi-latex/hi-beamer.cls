@@ -86,7 +86,7 @@
     \RequirePackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5,debug]{beamerposter}
 }{}
 
-\title{%
+\title[\TITLE]{%
     \textbf{\large \ifdefempty{\PRETITLE}{}{\PRETITLE:~\\} \TITLE}
     \ifdefempty{\SUBTITLE}{}{% Check if \SUBTITLE is empty
     \\\vspace{0.05cm}{\small \SUBTITLE}}%
