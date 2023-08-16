@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{hi-beamer}[2023/08/16 Custom Beamer Class for Háskóli Íslands]
-\LoadClass[compress]{beamer}
+\LoadClass[compress,handout]{beamer}
 
 \RequirePackage{amsmath,amssymb,latexsym,graphics}
 \RequirePackage[icelandic,english]{babel}
@@ -28,7 +28,14 @@
 \definecolor{red}{HTML}{FC8484}
 \definecolor{orange}{HTML}{FFA05F}
 
-\setbeamercolor{block title}{fg=orange}
+
+\setbeamercolor{block title}{bg=teal,fg=white} % Teal background and white text for the title
+\setbeamercolor{block body}{bg=teal!20!white,fg=black} % Muted teal background and black text for the body
+\setbeamercolor{alertblock title}{bg=red,fg=white}
+\setbeamercolor{alertblock body}{bg=red!20!white,fg=black}
+\setbeamercolor{exampleblock title}{bg=orange,fg=white}
+\setbeamercolor{exampleblock body}{bg=orange!20!white,fg=black}
+
 
 %%%%%%%%%%%%%%%%%%%%%
 %%%%% VARIABLES %%%%%

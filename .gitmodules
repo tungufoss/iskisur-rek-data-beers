@@ -1,0 +1,3 @@
+[submodule "rek-data-beers"]
+	path = rek-data-beers
+	url = git@github.com:tungufoss/iskisur-rek-data-beers.git
