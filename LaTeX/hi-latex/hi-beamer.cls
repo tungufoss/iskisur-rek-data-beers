@@ -28,14 +28,15 @@
 \definecolor{red}{HTML}{FC8484}
 \definecolor{orange}{HTML}{FFA05F}
 
+%\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercolor{block title}{bg=teal,fg=blue} % Teal background and blue text for the title
+\setbeamercolor{block body}{bg=teal!50!white,fg=black} % Muted teal background and black text for the body
+\setbeamercolor{block title alerted}{bg=red,fg=blue}
+\setbeamercolor{block body alerted}{bg=red!50!white,fg=black}
+\setbeamercolor{block title example}{bg=orange,fg=blue}
+\setbeamercolor{block body example}{bg=orange!50!white,fg=black}
 
-\setbeamercolor{block title}{bg=teal,fg=white} % Teal background and white text for the title
-\setbeamercolor{block body}{bg=teal!20!white,fg=black} % Muted teal background and black text for the body
-\setbeamercolor{alertblock title}{bg=red,fg=white}
-\setbeamercolor{alertblock body}{bg=red!20!white,fg=black}
-\setbeamercolor{exampleblock title}{bg=orange,fg=white}
-\setbeamercolor{exampleblock body}{bg=orange!20!white,fg=black}
-
+\setbeamercolor{itemize item}{fg=blue}
 
 %%%%%%%%%%%%%%%%%%%%%
 %%%%% VARIABLES %%%%%
@@ -45,7 +46,6 @@
 
 \newcommand{\setNAME}[1]{\def\NAME{#1}}
 \newcommand{\setTITLE}[1]{\def\TITLE{#1}}
-\newcommand{\setPRETITLE}[1]{\def\PRETITLE{#1}}
 \newcommand{\setSUBTITLE}[1]{\def\SUBTITLE{#1}}
 \newcommand{\setFACULTY}[1]{\def\FACULTY{#1}}
 \newcommand{\setSEMINAR}[1]{\def\SEMINAR{#1}}
@@ -60,7 +60,6 @@
 \settoggle{WIDE}{false}
 \def\NAME{name}
 \def\TITLE{title}
-\def\PRETITLE{}
 \def\SUBTITLE{}
 \def\FACULTY{faculty}
 \def\SEMINAR{seminar}
@@ -69,7 +68,6 @@
 
 \define@key{hi-beamer}{NAME}{\setNAME{#1}}
 \define@key{hi-beamer}{TITLE}{\setTITLE{#1}}
-\define@key{hi-beamer}{PRETITLE}{\setPRETITLE{#1}}
 \define@key{hi-beamer}{SUBTITLE}{\setSUBTITLE{#1}}
 \define@key{hi-beamer}{FACULTY}{\setFACULTY{#1}}
 \define@key{hi-beamer}{SEMINAR}{\setSEMINAR{#1}}
@@ -86,16 +84,8 @@
     \RequirePackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5,debug]{beamerposter}
 }{}
 
-\title[\TITLE]{%
-    \textbf{\large \ifdefempty{\PRETITLE}{}{\PRETITLE:~\\} \TITLE}
-    \ifdefempty{\SUBTITLE}{}{% Check if \SUBTITLE is empty
-    \\\vspace{0.05cm}{\small \SUBTITLE}}%
-    \\\vspace{0.2cm}{\small \textbf{\NAME { }<\EMAIL>}}%
-    \\\vspace{-0.2cm}{\scriptsize \FACULTY}%
-    \\\vspace{0.2cm}{\small \SEMINAR: \DATE}
-}
-
-\date{}
+\title{\TITLE}
+\date{\DATE}
 
 \newcommand{\hilogo}{
     \iftoggle{ICELANDIC}
@@ -113,7 +103,7 @@
 \setbeamercolor{author}{fg=blue}
 \setbeamercolor{date}{fg=blue}
 \setbeamercolor{item}{fg=blue}
-\setbeamercolor{block title}{fg=blue}
+
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -124,6 +114,56 @@
 }
 
 % Redefine the titlepage
+\setbeamertemplate{title page}{
+\vspace{3cm}
+\colorbox{white}{
+        \begin{minipage}{0.6\textwidth}
+            \vspace*{0.1cm} % Adjust this for vertical padding
+            \color{blue}\textbf{\large\inserttitle}
+            \vspace*{0.1cm} % Adjust this for vertical padding
+        \end{minipage}
+}
+
+\ifdefempty{\SUBTITLE}{}{% Check if \SUBTITLE is empty
+\vspace{0.1cm}
+\colorbox{white}{
+        \begin{minipage}{0.85\textwidth}
+            \vspace*{0.1cm} % Adjust this for vertical padding
+            \color{blue}\SUBTITLE
+            \vspace*{0.1cm} % Adjust this for vertical padding
+        \end{minipage}
+}}
+
+\vfill
+\vspace{1cm}
+\colorbox{white}{
+        \begin{minipage}{0.6\textwidth}
+            \vspace*{0.05cm}
+            \color{blue}{\small \NAME~$\langle$\EMAIL$\rangle$}
+            \vspace*{0.05cm}
+        \end{minipage}
+}
+
+
+\vspace{0.1cm}
+\colorbox{blue}{
+        \begin{minipage}{0.6\textwidth}
+            \vspace*{0.05cm}
+            \color{white}{\small \textbf{\SEMINAR}: \insertdate}
+            \vspace*{0.05cm}
+        \end{minipage}
+}
+
+\vspace{0.1cm}
+\hfill % This command ensures that the following content is right-aligned
+\colorbox{black}{
+        \begin{minipage}{0.25\textwidth}
+            \vspace*{0.05cm}
+            \flushright\color{white}{\tiny \MakeUppercase\FACULTY}
+            \vspace*{0.05cm}
+        \end{minipage}
+}
+}
 % Define initial background based on the WIDE toggle
 \AtBeginDocument{%
     \iftoggle{WIDE}{
@@ -132,8 +172,6 @@
         \usebackgroundtemplate{\includegraphics[width=\paperwidth]{hi-latex/front43.png}}
     }
     \begin{frame}
-    \vspace{3cm}
-    \pgfsetfillopacity{0.78}
     \titlepage
     \thispagestyle{empty}
     \end{frame}
@@ -155,6 +193,7 @@
     }
 }
 
-
+\let\oldemph\emph
+\renewcommand\emph[1]{{\color{blue}\textbf{#1}}}
 
 \endinput

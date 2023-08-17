@@ -3,14 +3,16 @@
 \documentclass[
     NAME={Dr. Helga Ingimundardóttir},
     EMAIL={helgaingim@hi.is},
-    FACULTY={Industrial Engineering Department},
-    PRETITLE={Pushing Boundaries},
-    TITLE={A Data-Driven Dive into `Legend of the Ice People'},
+    FACULTY={Industrial Engineering},
+    TITLE={Pushing Boundaries: A Data-Driven Dive into `Legend of the Ice People'},
     SUBTITLE={Unravel the unexpected synergy of literature and data science},
     SEMINAR={Haustráðstefna Advania},
     DATE={September 8, 2023}
     ]{hi-latex/hi-beamer}
 \setbeameroption{show notes}
+
+\let\olditem\item
+\renewcommand{\item}{\pause\olditem}
 
 \begin{document}
 
