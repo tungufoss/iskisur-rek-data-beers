@@ -196,4 +196,6 @@
 \let\oldemph\emph
 \renewcommand\emph[1]{{\color{blue}\textbf{#1}}}
 
+\usepackage{booktabs} % Top and bottom rules for tables
+
 \endinput
