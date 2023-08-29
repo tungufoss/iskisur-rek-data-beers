@@ -14,34 +14,47 @@
 \usepackage{media9}
 \usepackage[scale=2]{ccicons}
 
-\let\olditem\item
-\renewcommand{\item}{\pause\olditem}
+\newcommand{\customframe}[3][]{
+    \usebackgroundtemplate{
+        \tikz[overlay,remember picture]
+        \node[opacity=0.3, at=(current page.center)] {
+            \includegraphics[width=\paperwidth,height=\paperheight]{#2}
+        };
+    }
+    \ifx&#1&
+        \section{#3}
+    \fi
+    \addtobeamertemplate{frametitle}{\vskip3cm}{} % Adjust the frametitle position for this slide only
+    \begin{frame}[plain]{#3}
+        #1
+    \end{frame}
+    \addtobeamertemplate{frametitle}{\vskip-3cm}{} % Reset the frametitle template to default
+    \usebackgroundtemplate{}  % Reset the background for the following frames
+}
 
 \begin{document}
 
 %\toggleColor
 % Outline
-\begin{frame}{Outline}
-  \tableofcontents
-\end{frame}
+\customframe[\tableofcontents]{../rek-data-beers/figures/dalle-book-2}{Outline}
 
 % Introduction
-\section{Introduction}
+\customframe{../rek-data-beers/figures/dalle-book-3}{Introduction}
 \input{about}
 
-\section{Written Books}
+\customframe{../rek-data-beers/figures/dalle-book-4}{Written Books}
 \input{books}
 
-\section{Audio Books}
+\customframe{../rek-data-beers/figures/dalle-book-5}{Audio Books}
 \input{audiobooks}
 
-\section{Podcast}
+\customframe{../rek-data-beers/figures/dalle-podcast}{Podcast}
 \input{podcast}
 
-\section{Storyline}
+\customframe{../rek-data-beers/figures/dalle-book-6}{Storyline}
 \input{storyline}
 
-\section{Conclusion}
-\input{play-him-off}
+\section{Final Remarks}
+\customframe[\input{play-him-off}]{../rek-data-beers/figures/dalle-book-1}{Thank You}
 
 \end{document}
