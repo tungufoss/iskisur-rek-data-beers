@@ -21,7 +21,7 @@ names <- isfolk.names %>% merge(iceland.names, by='name')
 
 p1 <- names %>%
   ggplot(aes(x=year, y=count, color=name)) + geom_line() +
-  labs(y='Frequency of First and Middle Names', x='Year Born',
+  labs(y='Frequency of First and Middle Names', x=NULL,
        title='Name Trends in Iceland') +
   theme(legend.position = 'bottom', legend.title = element_blank())
 
@@ -46,12 +46,12 @@ df <- names %>%
 p2 <- df %>%
   ggplot(aes(x=year, y=count, color=name)) + geom_line() +
   geom_point(data=df %>% filter(is_year==year), size=4, shape=8) +
-  labs(y='Frequency of First and Middle Names', x='Year Born',
-       title='Significant Difference in Frequency of Names after Publication') +
+  labs(y='Frequency of First and Middle Names', x=NULL,
+       title='Significant Difference in Frequency Post-Publication') +
   scale_x_continuous(limits = c(1975,1995), expand = c(0,0)) +
     theme(legend.position = 'bottom', legend.title = element_blank())+
   scale_color_manual(values = long_palette)
 cowplot::plot_grid(p1, p2, ncol=2)
-ggsave(filename = 'figures/iceland_names.png', width = 10, height = 8, units = 'in', dpi = 300)
+ggsave(filename = 'figures/iceland_names.png', width = 12, height = 6, units = 'in', dpi = 300)
 name_impacted %>%
   filter(before==0 & after>0)
