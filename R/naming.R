@@ -49,8 +49,8 @@ p2 <- df %>%
   labs(y='Frequency of First and Middle Names', x=NULL,
        title='Significant Difference in Frequency Post-Publication') +
   scale_x_continuous(limits = c(1975,1995), expand = c(0,0)) +
-    theme(legend.position = 'bottom', legend.title = element_blank())+
-  scale_color_manual(values = long_palette)
+    theme(legend.position = 'bottom', legend.title = element_blank())
+
 cowplot::plot_grid(p1, p2, ncol=2)
 ggsave(filename = 'figures/iceland_names.png', width = 12, height = 6, units = 'in', dpi = 300)
 name_impacted %>%
