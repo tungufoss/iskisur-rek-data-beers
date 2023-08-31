@@ -42,6 +42,12 @@ However, we encourage you to focus on the current Advania presentation for a mor
 
 ![Advania Haustráðstefna](figures/advania.png)
 
+### Video Recording
+A video recording of the *Reykjavík Databeers* talk, approximately 45 minutes in length, is available for viewing on
+[YouTube](https://www.youtube.com/watch?v=QrLVYWTX_Dc).
+
+
+
 ## License
 This repository and its contents are shared under the Creative Commons Attribution-ShareAlike (CC-BY-SA) license. You are free to use, share, and modify the materials in this repository, provided that you give appropriate credit and distribute any derivative works under the same license.
 
