@@ -1,36 +1,18 @@
 %! Author = helgaingim
-%! Date = 5.6.2023
+%! Date = 8.8.2023
+\documentclass[
+    NAME={Dr. Helga Ingimundardóttir},
+    EMAIL={helgaingim@hi.is},
+    FACULTY={Industrial Engineering},
+    TITLE={Pushing Boundaries: A Data-Driven Dive into `Legend of the Ice People'},
+    SUBTITLE={Unravel the unexpected synergy of literature and data science},
+    SEMINAR={Haustráðstefna Advania},
+    DATE={September 8, 2023}
+    ]{hi-latex/hi-beamer}
+%\setbeameroption{show notes}
 
-% Preamble
-\documentclass{beamer}
-
-% dark theme
-\usetheme{metropolis}
-
-% Packages
-\usepackage[T1]{fontenc} % Icelandic letters
-\usepackage[icelandic]{babel} % Icelandic hyphenation
-
-\usepackage{graphicx}  % Required for including graphics
-\usepackage{svg}       % Required for SVG support
-\usepackage{tikz}      % Required for customizing background
-
-\usetikzlibrary{calc} % Required for customizing background
-\usepackage{booktabs} % Top and bottom rules for tables
 \usepackage{media9}
 \usepackage[scale=2]{ccicons}
-
-\title{The Legend of the Cat People}
-\subtitle{An Engineering Perspective of the 80s Chick-Lit Sensation by Margit Sandemo (with Cat Memes)}
-\author{Dr. Helga Ingimundardóttir}
-\date{June 15\textsuperscript{th} 2023}
-
-\usebackgroundtemplate{
-    \tikz[overlay,remember picture]
-    \node[opacity=0.3, at=(current page.center)] {
-        \includegraphics[width=\paperwidth,height=\paperheight]{../figures/dalle-book-1}
-    };
-}
 
 \newcommand{\customframe}[3][]{
     \usebackgroundtemplate{
@@ -39,75 +21,40 @@
             \includegraphics[width=\paperwidth,height=\paperheight]{#2}
         };
     }
-    \begin{frame}
-        \vfill
-
+    \ifx&#1&
         \section{#3}
-
-        \normalsize #1
-
-        \thispagestyle{empty}
+    \fi
+    \addtobeamertemplate{frametitle}{\vskip3cm}{} % Adjust the frametitle position for this slide only
+    \begin{frame}[plain]{#3}
+        #1
     \end{frame}
+    \addtobeamertemplate{frametitle}{\vskip-3cm}{} % Reset the frametitle template to default
     \usebackgroundtemplate{}  % Reset the background for the following frames
 }
 
-\newcommand{\byline}{
-    \begin{columns}[T]
-
-        \begin{column}{0.6\textwidth}
-            Feel free to contact me at \href{mailto:helgaingim@hi.is}{helgaingim@hi.is} \\
-            or \href{https://twitter.com/tungufoss}{@tungufoss} on Twitter.
-
-            \vspace{12pt}
-
-            Get the source of this data analysis at:
-            \begin{center}
-                \url{github.com/tungufoss/iskisur-rek-data-beers}
-
-                \vspace{6pt}
-
-                \ccbysa
-            \end{center}
-        \end{column}
-        \begin{column} {0.3\textwidth}
-            \href{https://www.youtube.com/watch?v=DK7CVqbtW0A}{
-                \includegraphics[width=\textwidth]{../figures/dalle-keyboardcat}
-            }
-        \end{column}
-    \end{columns}
-}
-
-% minimise the left and right margins a bit
-\setbeamersize{text margin left=0.5cm,text margin right=0.5cm}
-
-\definecolor{haskolablatt}{RGB}{16,9,159}
-
-% Document
 \begin{document}
-    \frame{\titlepage}
-    \usebackgroundtemplate{}
-    \setbeamertemplate{frame footer}{
-        \begin{tikzpicture}[overlay, remember picture]
-            \node[anchor=south west, inner sep=0pt] at ([yshift=0cm]current page.south west) {
-                \includegraphics[height=.5cm]{../figures/logo.png} % Adjust logo size here
-            };
-        \end{tikzpicture}
-    }
 
-    \input{about}
+%\toggleColor
+% Outline
+\customframe[\tableofcontents]{../figures/dalle-book-2}{Outline}
 
-    \customframe{../figures/dalle-book-2}{The Book Series in the 80s}
-    \input{books}
+% Introduction
+\customframe{../figures/dalle-book-3}{Introduction}
+\input{about}
 
-    \customframe{../figures/dalle-book-3}{The Ice People}
-    \input{isfolkid}
+\customframe{../figures/dalle-book-4}{Written Books}
+\input{books}
 
-    \customframe{../figures/dalle-podcast}{A Syndicated Book Club}
-    \input{iskisur}
+\customframe{../figures/dalle-book-5}{Audio Books}
+\input{audiobooks}
 
-    \customframe{../figures/dalle-book-6}{Audiobooks on Storytel}
-    \input{audiobooks}
+\customframe{../figures/dalle-podcast}{Podcast}
+\input{podcast}
 
-    \customframe[\byline]{../figures/dalle-book-4}{Play Him Off, Keyboard Cat}
+\customframe{../figures/dalle-book-6}{Storyline}
+\input{storyline}
+
+\section{Final Remarks}
+\customframe[\input{play-him-off}]{../figures/dalle-book-1}{Thank You}
 
 \end{document}

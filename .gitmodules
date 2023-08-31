@@ -1,0 +1,3 @@
+[submodule "LaTeX/hi-latex"]
+	path = LaTeX/hi-latex
+	url = https://github.com/tungufoss/hi-LaTeX-slides

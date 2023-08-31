@@ -9,3 +9,6 @@ gantt_order.csv
 *.synctex.gz
 *.snm
 *.nav
+
+# Other system files
+.idea/

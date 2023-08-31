@@ -8,7 +8,7 @@ The repository is organized as follows:
 
 * `code/`: This directory contains code examples in R and Python for data analysis and manipulation. The code can be used to explore and analyze the provided datasets.
 
-* `LaTeX/`: This folder contains the LaTeX files used for the presentation at the 6th installment of the Reykjavík Databeers seminar, held on June 15, 2023, at Orkuveita Reykjavíkur. The presentation provides insights into the data analysis performed on the "Legend of the Ice People" dataset.
+* `LaTeX/`: This folder contain the LaTeX files initially prepared for a presentation at the *6th Reykjavík Databeers* seminar on June 15, 2023, at Orkuveita Reykjavíkur, where they highlighted data analysis from the *Legend of the Ice People* dataset. These files were subsequently modified for a presentation at the *Advania Haustráðstefna*, which took place in Harpa on September 8th, 2023.
 
 * `LICENSE`: The license file for this repository, which is shared under the Creative Commons Attribution-ShareAlike (CC-BY-SA) license.
 
