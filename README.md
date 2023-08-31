@@ -40,7 +40,7 @@ seminar on June 15, 2023, at Orkuveita Reykjavíkur.
 If you're interested in the original presentation, it is tagged under `Reykjavik-DataBeers-Presentation` in the repository. 
 However, we encourage you to focus on the current Advania presentation for a more refined experience.
 
-![Advania Haustráðstefna](figures/advania.jpg)
+![Advania Haustráðstefna](figures/advania.png)
 
 ## License
 This repository and its contents are shared under the Creative Commons Attribution-ShareAlike (CC-BY-SA) license. You are free to use, share, and modify the materials in this repository, provided that you give appropriate credit and distribute any derivative works under the same license.
