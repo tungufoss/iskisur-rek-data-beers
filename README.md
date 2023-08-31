@@ -30,8 +30,17 @@ git clone --recurse-submodules git@github.com:tungufoss/iskisur-rek-data-beers.g
   to `@tungufoss` (`@hideftextiles` in English).
 
 ## Presentation
-The presentation slides used for the 6th installment of the Reykjavík Databeers seminar, held on June 15, 2023, at 
-Orkuveita Reykjavíkur, can be found in the `LaTeX/` directory. All source files are provided for reference.
+The slides in the `LaTeX` directory are from the **Haustráðstefna Advania** held on September 8th, 2023. 
+
+> **Pushing Boundaries: A Data-Driven Dive into 'Legend of the Ice People'**  
+> Discover the unexpected synergy of literature and data science as we explore Margit Sandemo's cherished series. Extract insights from its various formats, from print to audio to podcasts, showcasing the transformative power of data in unanticipated domains.
+
+This presentation is an enhanced version of the one delivered at the *6th installment of the Reykjavík Databeers* 
+seminar on June 15, 2023, at Orkuveita Reykjavíkur. 
+If you're interested in the original presentation, it is tagged under `Reykjavik-DataBeers-Presentation` in the repository. 
+However, we encourage you to focus on the current Advania presentation for a more refined experience.
+
+![Advania Haustráðstefna](figures/advania.jpg)
 
 ## License
 This repository and its contents are shared under the Creative Commons Attribution-ShareAlike (CC-BY-SA) license. You are free to use, share, and modify the materials in this repository, provided that you give appropriate credit and distribute any derivative works under the same license.
